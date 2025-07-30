@@ -1,0 +1,135 @@
+/* Container principal */
+.vehicles-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+    color: #222;
+    margin-left: 200px;
+  }
+  
+  /* Titre principal */
+  .vehicles-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color:rgb(58, 149, 93);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  
+  /* Tableaux véhicules */
+  .vehicles-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px; /* espace entre les lignes */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  /* En-tête tableau */
+  .vehicles-table thead tr {
+    background: linear-gradient(90deg,rgb(58, 149, 93));
+    color: white;
+    font-weight: 600;
+    text-align: left;
+  }
+  
+  /* Cellules en-tête */
+  .vehicles-table thead th {
+    padding: 15px 20px;
+  }
+  
+  /* Corps du tableau */
+  .vehicles-table tbody tr {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover sur ligne */
+  .vehicles-table tbody tr:hover {
+    background-color: #e0e7ff;
+  }
+  
+  /* Cellules du corps */
+  .vehicles-table tbody td {
+    padding: 15px 20px;
+    border-left: 5px solid transparent;
+    vertical-align: middle;
+  }
+  
+  /* Statuts avec couleurs distinctes */
+  .status-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .status-btn.available {
+    background-color: #28a745;
+  }
+  
+  .status-btn.rented {
+    background-color: #ffc107;
+    color: #000;
+  }
+  
+  .status-btn.broken {
+    background-color: #dc3545;
+  }
+  
+  
+  /* Bouton Retour */
+  .back-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: rgb(58, 149, 93);
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .back-button:hover {
+    background-color: #003d80;
+  }
+  
+  /* Responsive : pour écrans petits */
+  @media (max-width: 700px) {
+    .vehicles-table thead {
+      display: none; /* cache l'entête sur mobile */
+    }
+  
+    .vehicles-table tbody tr {
+      display: block;
+      margin-bottom: 20px;
+      background-color: white;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 15px;
+    }
+  
+    .vehicles-table tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-left: none;
+    }
+  
+    .vehicles-table tbody td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: #555;
+    }
+  }
+  

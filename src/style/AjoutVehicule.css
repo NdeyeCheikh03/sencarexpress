@@ -1,0 +1,61 @@
+.form-ajout {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color:rgb(192, 244, 212);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+    margin-left: 400px;
+  }
+  
+  .form-ajout h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-size: 1.8rem;
+  }
+  
+  .form-ajout label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .form-ajout input,
+  .form-ajout select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s;
+  }
+  
+  .form-ajout input:focus,
+  .form-ajout select:focus {
+    border-color: rgb(58, 149, 93);
+    outline: none;
+    background-color: #fff;
+  }
+  
+  .valider-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background-color:rgb(58, 149, 93)f;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .valider-btn:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,0 +1,39 @@
+.sidebar {
+    width: 160px; /* un peu moins large */
+    background-color: #3a955d;
+    color: white;
+    padding: 1rem;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+  
+  .sidebar-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .sidebar li {
+    margin: 1rem 0;
+    cursor: pointer;
+  }
+  
+  .sidebar li:hover {
+    text-decoration: underline;
+  }
+  
+  .submenu ul {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .submenu ul li {
+    font-size: 0.95rem;
+  }

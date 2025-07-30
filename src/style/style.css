@@ -1,0 +1,435 @@
+/* Reset global : enlever marges et paddings extérieurs */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: hidden; /* évite un scroll horizontal si débordement */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container général centré, sans marges extérieures */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  
+  /* Titre centré */
+  .title-section {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #166534;
+  }
+  
+  .navbar {
+    width: 100vw;
+    margin: 0;
+    padding: 20px 40px; /* Augmente la hauteur via le padding */
+    background-color:rgb(58, 149, 93);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    box-sizing: border-box;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 80px; /* Hauteur explicite */
+  }
+  
+  
+  /* Logo */
+  .logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  /* Menu liens */
+  .menu a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .menu a:hover {
+    color: #a7f3d0;
+  }
+  
+  /* Header section */
+  .header-section {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .header-section h1 {
+    font-size: 2.75rem;
+    margin-bottom: 12px;
+    font-weight: bold;
+    color:rgb(35, 145, 77);
+  }
+  
+  .header-section p {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-bottom: 24px;
+  }
+  
+  .btn-primary {
+    background-color: #166534;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #14532d;
+  }
+  
+  /* Services */
+  .services-section {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .services-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes fixes */
+    gap: 20px;
+    justify-items: center; /* centre chaque carte */
+  }
+  
+  /* Positionnement spécifique des cartes 4 et 5 */
+  .services-grid > :nth-child(4) {
+    grid-column-start: 1;
+    grid-row-start: 2;
+  }
+  
+  .services-grid > :nth-child(5) {
+    grid-column-start: 2;
+    grid-row-start: 2;
+  }
+  
+  /* Cartes de service */
+  .service-card {
+    width: 300px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .service-icon img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Vehicles */
+  .vehicles-section {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .vehicles-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  
+  .vehicle-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+    width: 300px;
+    height: 350px;
+  }
+  
+  .vehicle-card:hover {
+    box-shadow: 0 5px 18px rgba(0,0,0,0.15);
+  }
+  
+  .vehicle-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  
+  .vehicle-info {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .vehicle-info h3 {
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  /* Boutons secondaires */
+  .btn-secondary {
+    background-color: #166534;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #14532d;
+  }
+  .why-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 24px;
+    margin-bottom: 80px;
+  }
+  
+  .why-left {
+    flex: 1 1 300px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .why-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #166534;
+  }
+  
+  .why-right {
+    flex: 1 1 400px;
+    background-color:rgb(58, 149, 93);
+    color: white;
+    border-radius: 20px; /* ⬅️ bordure bien arrondie */
+    border: 3px rgb(58, 149, 93);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+  .video-button {
+    margin-top: 20px;
+    background-color: #14532d; /* vert foncé */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .video-button:hover {
+    background-color: #166534; /* vert un peu plus clair au survol */
+  }
+  .trusted-carousel-section {
+    padding: 40px 20px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    max-width: 1200px;
+    margin: 0 auto 60px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trusted-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #166534; /* couleur verte assortie à ta charte */
+  }
+  
+  .trusted-swiper {
+    padding-bottom: 40px; /* espace sous le carousel pour la pagination */
+  }
+  
+  .logo-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .logo-slide:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+  }
+  
+  .logo-slide img {
+    max-height: 80px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+.avis-clients-section {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.avis-clients-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #166534; /* vert harmonieux */
+}
+
+.avis-clients-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.avis-card {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  max-width: 300px;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avis-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #166534;
+}
+
+.avis-nom {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #166534;
+}
+
+.avis-commentaire {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #444;
+  min-height: 70px;
+}
+
+.avis-etoiles {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.service-icon {
+  width: 40px;    /* taille à ajuster */
+  height: 40px;
+  margin-bottom: 10px;
+}
+.footer {
+  background-color:rgb(58, 149, 93);
+  color: #fff;
+  padding: 60px 20px;
+  font-family: sans-serif;
+  margin-top: 50px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  height : 170px;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  min-width: 220px;
+}
+
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.footer-description p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-socials i {
+  margin-right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-socials i:hover {
+  color: #ccc;
+}
+
+.contact-list i {
+  margin-right: 10px;
+}
+

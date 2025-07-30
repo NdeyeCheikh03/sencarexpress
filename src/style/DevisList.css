@@ -1,0 +1,21 @@
+.devis-list-container {
+    padding: 20px;
+    background-color: white;
+  }
+  
+  .devis-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .devis-table th,
+  .devis-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .devis-table th {
+    background-color: #f0f0f0;
+  }
+  

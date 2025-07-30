@@ -1,0 +1,64 @@
+/* Sidebar déjà définie comme fixed à gauche avec largeur 160px */
+/* Pas besoin de modifier ta sidebar */
+
+.chauffeur-layout {
+  display: flex;
+}
+
+/* Contenu principal — on ajoute une marge à gauche égale à la largeur de la sidebar */
+.chauffeur-content {
+  margin-left: 500px; /* laisse de la place pour la sidebar */
+  padding: 2rem;
+  max-width: 600px;
+  background-color:rgb(187, 234, 205);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-height: 100vh; /* au moins hauteur de la page */
+}
+
+/* Titre */
+.admin-content h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulaire */
+.chauffeur-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.chauffeur-form label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+/* Inputs & selects */
+.chauffeur-form input,
+.chauffeur-form select {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Bouton submit */
+.submit-btn {
+  background-color: #3a955d;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #2c7b4a;
+}
