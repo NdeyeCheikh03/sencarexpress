@@ -25,6 +25,42 @@ const VehiculesPage = () => {
     fetchVehicles();
   }, []);
 
+  // Fonction pour retourner un libellé d'état lisible
+  const getEtatLabel = (etat) => {
+    switch (etat) {
+      case 'available': return 'Disponible';
+      case 'rented': return 'Loué';
+      case 'broken': return 'En panne';
+      default: return etat;
+    }
+  };
+
+  // Fonction pour retourner l'état suivant
+  const getNextEtat = (etat) => {
+    switch (etat) {
+      case 'available': return 'rented';
+      case 'rented': return 'broken';
+      case 'broken': return 'available';
+      default: return 'available';
+    }
+  };
+
+  // Changement de l’état du véhicule
+  const handleEtatClick = async (vehicule) => {
+    const nextEtat = getNextEtat(vehicule.etat);
+    try {
+      await axios.patch(`http://localhost:8000/api/vehicules/${vehicule.id}/etat`, {
+        etat: nextEtat,
+      });
+
+      setVehicles((prev) =>
+        prev.map((v) => (v.id === vehicule.id ? { ...v, etat: nextEtat } : v))
+      );
+    } catch (error) {
+      console.error('Erreur lors du changement d’état :', error);
+    }
+  };
+
   return (
     <div className="vehicles-page-wrapper">
       <Sidebar />
@@ -44,6 +80,7 @@ const VehiculesPage = () => {
                 <th>Immatriculation</th>
                 <th>Assurance Début</th>
                 <th>Assurance Fin</th>
+                <th>État</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +96,14 @@ const VehiculesPage = () => {
                   </td>
                   <td data-label="Assurance Fin">
                     {new Date(vehicule.assurance_fin).toLocaleDateString('fr-FR')}
+                  </td>
+                  <td data-label="État">
+                    <button
+                      className={`status-btn ${vehicule.etat}`}
+                      onClick={() => handleEtatClick(vehicule)}
+                    >
+                      {getEtatLabel(vehicule.etat)}
+                    </button>
                   </td>
                 </tr>
               ))}

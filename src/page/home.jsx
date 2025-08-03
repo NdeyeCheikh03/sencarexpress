@@ -12,7 +12,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
-import transportImg from "../assets/image.png";
+import transportImg from "../assets/bus2sencar.jpg";
 import transportImg2 from "../assets/bus25.jpg";
 import transportImg3 from "../assets/VAN15PLACES.jpeg";
 import transportImg4 from "../assets/voiture5place.jpg";
