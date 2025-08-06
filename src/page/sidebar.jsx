@@ -68,6 +68,7 @@ const Sidebar = () => {
             </ul>
           </div>
         )}
+         <li onClick={() => navigate('/tarification')}>Tarification</li>
       </ul>
     </div>
   );

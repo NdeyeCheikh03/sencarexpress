@@ -141,35 +141,35 @@ const AdminPage = () => {
           <div style={{ display: 'flex', width: '100%', marginTop: '20px' }}>
             {/* Devis */}
             <section className="dashboard-section" style={{ flex: 1, marginRight: '10px' }}>
-              <h2>Liste des devis</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nom</th>
-                    <th>Quantité</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {devisList.length === 0 ? (
-                    <tr><td colSpan="4">Aucun devis reçu</td></tr>
-                  ) : (
-                    devisList.slice(0, 3).map((devis, index) => (
-                      <tr key={index}>
-                        <td>{devis.nom}</td>
-                        <td>{devis.quantite}</td>
-                        <td>{new Date(devis.date).toLocaleDateString()}</td>
-                        <td><button className="valider-btn">Valider</button></td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-              <button className="ajouter-vehicule-btn" onClick={() => navigate('/liste/devis')}>
-                Voir Plus
-              </button>
-            </section>
+  <h2>Liste des devis</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Départ</th>
+        <th>Arrivée</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      {devisList.length === 0 ? (
+        <tr><td colSpan="4">Aucun devis reçu</td></tr>
+      ) : (
+        devisList.slice(0, 3).map((devis) => (
+          <tr key={devis.id}>
+            <td>{devis.nom}</td>
+            <td>{devis.adresseDepart}</td>
+            <td>{devis.adresseArrivee}</td>
+            <td>{devis.statut}</td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+  <button className="ajouter-vehicule-btn" onClick={() => navigate('/liste/devis')}>
+    Voir Plus
+  </button>
+</section>
 
             {/* Chauffeurs */}
             <section className="dashboard-section" style={{ flex: 1, marginLeft: '10px' }}>

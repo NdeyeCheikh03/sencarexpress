@@ -11,7 +11,10 @@ import AjoutVehicule from './page/AjoutVehiculeForm';
 import AjoutChauffeur from './page/AjoutChauffeur';
 import VehiculesPage from "./page/VehiculePage";
 import ListeChauffeurs from "./page/ListeChauffeur";
-import DevisList from "./page/DevisList.jsx";
+import ListeDevis from "./page/DevisList.jsx";
+import TarificationPage from './page/TarificationPage';
+
+
 
 
 function App() {
@@ -28,7 +31,10 @@ function App() {
 <Route path="/chauffeurs/ajouter" element={<AjoutChauffeur />} />
 <Route path="/liste/vehicules" element={<VehiculesPage/>} />
 <Route path="/liste/chauffeurs" element={<ListeChauffeurs/>} />
-<Route path="/liste/devis" element={<DevisList/>} />
+<Route path="/liste/devis" element={<ListeDevis/>} />
+<Route path="/tarification" element={<TarificationPage />} />
+
+
         </Routes>
       </Router>
     </AuthProvider>

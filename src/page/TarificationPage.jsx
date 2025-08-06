@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../page/sidebar';
+import Sidebar from '../page/sidebar'; // adapte ce chemin selon ton projet
 import axios from 'axios';
 import '../style/DevisList.css';
+import { FaTrash, FaPen, FaSave, FaTimes } from 'react-icons/fa';
 
 const STATUTS = ['En attente', 'Accepté', 'Refusé', 'payé'];
 
@@ -19,6 +20,7 @@ const ListeDevis = () => {
         console.error('Erreur fetch devis:', error);
       }
     };
+
     fetchDevis();
   }, []);
 
@@ -31,31 +33,6 @@ const ListeDevis = () => {
         console.error("Erreur suppression devis :", error);
       }
     }
-  };
-
-  const handleEdit = (id, tarif) => {
-    setEditingId(id);
-    setEditedTarif(tarif ?? '');
-  };
-
-  const handleTarifChange = (e) => {
-    setEditedTarif(e.target.value);
-  };
-
-  const saveTarif = async (id) => {
-    try {
-      await axios.put(`http://localhost:8000/api/devis/${id}`, { tarif: editedTarif });
-      setDevisList(devisList.map(d => d.id === id ? { ...d, tarif: editedTarif } : d));
-      setEditingId(null);
-      setEditedTarif('');
-    } catch (error) {
-      console.error("Erreur mise à jour tarif :", error);
-    }
-  };
-
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditedTarif('');
   };
 
   const changeStatut = async (id) => {
@@ -74,6 +51,35 @@ const ListeDevis = () => {
     } catch (error) {
       console.error("Erreur mise à jour statut :", error);
     }
+  };
+
+  const handleEdit = (id, tarif) => {
+    setEditingId(id);
+    setEditedTarif(tarif ?? '');
+  };
+
+  const handleTarifChange = (e) => {
+    setEditedTarif(e.target.value);
+  };
+
+  const saveTarif = async (id) => {
+    try {
+      // Envoie la mise à jour du tarif au serveur
+      await axios.put(`http://localhost:8000/api/devis/${id}`, { tarif: editedTarif });
+      // Mets à jour la liste locale
+      setDevisList(devisList.map(d =>
+        d.id === id ? { ...d, tarif: editedTarif } : d
+      ));
+      setEditingId(null);
+      setEditedTarif('');
+    } catch (error) {
+      console.error("Erreur mise à jour tarif :", error);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditedTarif('');
   };
 
   return (
@@ -114,32 +120,41 @@ const ListeDevis = () => {
                           onChange={handleTarifChange}
                           style={{ width: '80px' }}
                         />
-                        <button onClick={() => saveTarif(devis.id)} title="Enregistrer">💾</button>
-                        <button onClick={cancelEdit} title="Annuler">❌</button>
+                        <button
+                          onClick={() => saveTarif(devis.id)}
+                          title="Enregistrer"
+                          className="icon-btn"
+                        >
+                          <FaSave />
+                        </button>
+                        <button
+                          onClick={cancelEdit}
+                          title="Annuler"
+                          className="icon-btn"
+                        >
+                          <FaTimes />
+                        </button>
                       </>
                     ) : (
                       <>
                         {devis.tarif ?? '-'}{' '}
-                        <button onClick={() => handleEdit(devis.id, devis.tarif)} title="Modifier tarif">✏️</button>
+                        <button
+                          onClick={() => handleEdit(devis.id, devis.tarif)}
+                          title="Modifier tarif"
+                          className="icon-btn"
+                        >
+                          <FaPen />
+                        </button>
                       </>
                     )}
                   </td>
                   <td>
                     <button
-                      onClick={() => alert(`Modifier le devis avec l'id ${devis.id} - à implémenter`)}
-                      title="Modifier"
-                      className="btn-action edit-btn"
-                      aria-label="Modifier"
-                    >
-                      ✏️
-                    </button>
-                    <button
                       onClick={() => handleDelete(devis.id)}
                       title="Supprimer"
-                      className="btn-action delete-btn"
-                      aria-label="Supprimer"
+                      className="icon-btn"
                     >
-                      🗑️
+                      <FaTrash />
                     </button>
                   </td>
                   <td>
