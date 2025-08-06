@@ -18,7 +18,9 @@ class Devis extends Model
         'heureRetour',
         'telephone',
         'typeBus',
-        'informations'
+        'informations',
+        'statut',
+         'tarif'
     ];
     
 }
