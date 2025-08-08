@@ -24,9 +24,9 @@ class DevisController extends Controller
             'adresseDepart' => 'required|string',
             'adresseArrivee' => 'required|string',
             'dateDepart' => 'required|date',
-            'heureDepart' => 'required',
+            'heureDepart' => 'required|string',
             'dateRetour' => 'required|date',
-            'heureRetour' => 'required',
+            'heureRetour' => 'required|string',
             'telephone' => 'required|string',
             'typeBus' => 'required|string',
             'informations' => 'nullable|string',
@@ -40,12 +40,24 @@ class DevisController extends Controller
         ], 201);
     }
 
-    // Mise à jour du statut et du tarif (par l’admin)
+    // Mise à jour complète d'un devis (par l’admin)
     public function update(Request $request, Devis $devis)
     {
         $validated = $request->validate([
-            'statut' => 'nullable|string',
-            'tarif' => 'nullable|numeric',
+            'nom' => 'sometimes|required|string|max:255',
+            'organisme' => 'sometimes|nullable|string|max:255',
+            'email' => 'sometimes|required|email',
+            'adresseDepart' => 'sometimes|required|string',
+            'adresseArrivee' => 'sometimes|required|string',
+            'dateDepart' => 'sometimes|required|date',
+            'heureDepart' => 'sometimes|required|string',
+            'dateRetour' => 'sometimes|required|date',
+            'heureRetour' => 'sometimes|required|string',
+            'telephone' => 'sometimes|required|string',
+            'typeBus' => 'sometimes|required|string',
+            'informations' => 'sometimes|nullable|string',
+            'statut' => 'sometimes|nullable|string',
+            'tarif' => 'sometimes|nullable|numeric',
         ]);
 
         $devis->update($validated);
@@ -54,5 +66,15 @@ class DevisController extends Controller
             'message' => 'Devis mis à jour avec succès',
             'data' => $devis
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $devis = Devis::find($id);
+        if (!$devis) {
+            return response()->json(['message' => 'Devis non trouvé'], 404);
+        }
+        $devis->delete();
+        return response()->json(['message' => 'Devis supprimé avec succès']);
     }
 }

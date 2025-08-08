@@ -22,6 +22,8 @@ Route::get('/chauffeurs', [ChauffeurController::class, 'index']);
  // Devis (accès restreint)
  Route::put('/devis/{devis}', [DevisController::class, 'update']);
  Route::get('/devis', [DevisController::class, 'index']);
+ Route::delete('/devis/{devis}', [DevisController::class, 'destroy']);
+
 
  // Tarifs (accès restreint)
  Route::get('/tarifs', [TarifController::class, 'index']);
