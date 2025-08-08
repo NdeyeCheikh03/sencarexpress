@@ -25,36 +25,15 @@ const VehiculesPage = () => {
     fetchVehicles();
   }, []);
 
-  // Fonction pour retourner un libellé d'état lisible
-  const getEtatLabel = (etat) => {
-    switch (etat) {
-      case 'available': return 'Disponible';
-      case 'rented': return 'Loué';
-      case 'broken': return 'En panne';
-      default: return etat;
-    }
-  };
-
-  // Fonction pour retourner l'état suivant
-  const getNextEtat = (etat) => {
-    switch (etat) {
-      case 'available': return 'rented';
-      case 'rented': return 'broken';
-      case 'broken': return 'available';
-      default: return 'available';
-    }
-  };
-
-  // Changement de l’état du véhicule
-  const handleEtatClick = async (vehicule) => {
-    const nextEtat = getNextEtat(vehicule.etat);
+  // Changement de l’état du véhicule via le menu déroulant
+  const handleEtatChange = async (vehicule, newEtat) => {
     try {
       await axios.patch(`http://localhost:8000/api/vehicules/${vehicule.id}/etat`, {
-        etat: nextEtat,
+        etat: newEtat,
       });
 
       setVehicles((prev) =>
-        prev.map((v) => (v.id === vehicule.id ? { ...v, etat: nextEtat } : v))
+        prev.map((v) => (v.id === vehicule.id ? { ...v, etat: newEtat } : v))
       );
     } catch (error) {
       console.error('Erreur lors du changement d’état :', error);
@@ -62,7 +41,7 @@ const VehiculesPage = () => {
   };
 
   return (
-    <div className="vehicles-page-wrapper">
+    <div className="vehicles-page-wrapper" style={{ display: 'flex' }}>
       <Sidebar />
       <div className="vehicles-container">
         <h1>Liste des Véhicules</h1>
@@ -98,12 +77,18 @@ const VehiculesPage = () => {
                     {new Date(vehicule.assurance_fin).toLocaleDateString('fr-FR')}
                   </td>
                   <td data-label="État">
-                    <button
-                      className={`status-btn ${vehicule.etat}`}
-                      onClick={() => handleEtatClick(vehicule)}
+                    <select
+                      value={vehicule.etat || ''}
+                      onChange={(e) => handleEtatChange(vehicule, e.target.value)}
+                      className={`status-select ${vehicule.etat ? vehicule.etat : ''}`}
                     >
-                      {getEtatLabel(vehicule.etat)}
-                    </button>
+                      <option value="" disabled>
+                        Sélectionner un état
+                      </option>
+                      <option value="available">Disponible</option>
+                      <option value="rented">Loué</option>
+                      <option value="broken">En panne</option>
+                    </select>
                   </td>
                 </tr>
               ))}

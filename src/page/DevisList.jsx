@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../page/sidebar';
 import axios from 'axios';
 import '../style/DevisList.css';
+import { FaPen, FaTrash } from 'react-icons/fa';
 
 const STATUTS = ['En attente', 'Accepté', 'Refusé', 'payé'];
 
 const ListeDevis = () => {
   const [devisList, setDevisList] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [editedTarif, setEditedTarif] = useState('');
+  const [editingDevis, setEditingDevis] = useState(null);
+  const [formData, setFormData] = useState({
+    nom: '',
+    adresseDepart: '',
+    adresseArrivee: '',
+    dateDepart: '',
+    dateRetour: '',
+    tarif: '',
+    statut: '',
+  });
 
   useEffect(() => {
     const fetchDevis = async () => {
@@ -33,58 +42,55 @@ const ListeDevis = () => {
     }
   };
 
-  const handleEdit = (id, tarif) => {
-    setEditingId(id);
-    setEditedTarif(tarif ?? '');
+  const handleEditClick = (devis) => {
+    setEditingDevis(devis);
+    setFormData({
+      ...devis,
+      dateDepart: devis.dateDepart ? devis.dateDepart.slice(0, 10) : '',
+      dateRetour: devis.dateRetour ? devis.dateRetour.slice(0, 10) : '',
+    });
   };
 
-  const handleTarifChange = (e) => {
-    setEditedTarif(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const saveTarif = async (id) => {
+  const saveChanges = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/devis/${id}`, { tarif: editedTarif });
-      setDevisList(devisList.map(d => d.id === id ? { ...d, tarif: editedTarif } : d));
-      setEditingId(null);
-      setEditedTarif('');
+      await axios.put(`http://localhost:8000/api/devis/${editingDevis.id}`, formData);
+      setDevisList(devisList.map(d => d.id === editingDevis.id ? { ...d, ...formData } : d));
+      setEditingDevis(null);
     } catch (error) {
-      console.error("Erreur mise à jour tarif :", error);
+      console.error("Erreur mise à jour devis :", error);
     }
   };
 
   const cancelEdit = () => {
-    setEditingId(null);
-    setEditedTarif('');
+    setEditingDevis(null);
   };
 
-  const changeStatut = async (id) => {
-    const devis = devisList.find(d => d.id === id);
-    if (!devis) return;
-
-    const currentIndex = STATUTS.indexOf(devis.statut);
-    const nextIndex = (currentIndex + 1) % STATUTS.length;
-    const nouveauStatut = STATUTS[nextIndex];
-
+  // Nouveau : modification du statut via un select (comme VehiculesPage)
+  const handleStatutChange = async (devis, newStatut) => {
     try {
-      await axios.put(`http://localhost:8000/api/devis/${id}`, { statut: nouveauStatut });
-      setDevisList(devisList.map(d =>
-        d.id === id ? { ...d, statut: nouveauStatut } : d
-      ));
+      await axios.put(`http://localhost:8000/api/devis/${devis.id}`, { statut: newStatut });
+      setDevisList((prev) =>
+        prev.map((d) => (d.id === devis.id ? { ...d, statut: newStatut } : d))
+      );
     } catch (error) {
       console.error("Erreur mise à jour statut :", error);
     }
   };
 
   return (
-    <div className="devis_container">
+    <div className="devis_container" style={{ display: 'flex' }}>
       <Sidebar />
-      <main className="devis_main">
+      <main className="devis_main" style={{ flex: 1, padding: '20px' }}>
         <h1>Liste complète des devis</h1>
         {devisList.length === 0 ? (
           <p>Aucun devis</p>
         ) : (
-          <table className="devis_table">
+          <table className="devis_table" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
                 <th>Nom</th>
@@ -103,58 +109,129 @@ const ListeDevis = () => {
                   <td>{devis.nom}</td>
                   <td>{devis.adresseDepart}</td>
                   <td>{devis.adresseArrivee}</td>
-                  <td>{devis.dateDepart}</td>
-                  <td>{devis.dateRetour}</td>
-                  <td>
-                    {editingId === devis.id ? (
-                      <>
-                        <input
-                          type="text"
-                          value={editedTarif}
-                          onChange={handleTarifChange}
-                          style={{ width: '80px' }}
-                        />
-                        <button onClick={() => saveTarif(devis.id)} title="Enregistrer">💾</button>
-                        <button onClick={cancelEdit} title="Annuler">❌</button>
-                      </>
-                    ) : (
-                      <>
-                        {devis.tarif ?? '-'}{' '}
-                        <button onClick={() => handleEdit(devis.id, devis.tarif)} title="Modifier tarif">✏️</button>
-                      </>
-                    )}
-                  </td>
+                  <td>{devis.dateDepart ? devis.dateDepart.slice(0, 10) : ''}</td>
+                  <td>{devis.dateRetour ? devis.dateRetour.slice(0, 10) : ''}</td>
+                  <td>{devis.tarif ?? '-'}</td>
                   <td>
                     <button
-                      onClick={() => alert(`Modifier le devis avec l'id ${devis.id} - à implémenter`)}
+                      onClick={() => handleEditClick(devis)}
                       title="Modifier"
-                      className="btn-action edit-btn"
                       aria-label="Modifier"
+                      style={{ border: 'none', background: 'none', cursor: 'pointer', marginRight: '10px' }}
                     >
-                      ✏️
+                      <FaPen />
                     </button>
                     <button
                       onClick={() => handleDelete(devis.id)}
                       title="Supprimer"
-                      className="btn-action delete-btn"
                       aria-label="Supprimer"
+                      style={{ border: 'none', background: 'none', cursor: 'pointer' }}
                     >
-                      🗑️
+                      <FaTrash />
                     </button>
                   </td>
                   <td>
-                    <button
-                      onClick={() => changeStatut(devis.id)}
-                      className={`btn-statut statut-${devis.statut.toLowerCase()}`}
-                      title="Cliquez pour changer le statut"
+                    <select
+                      value={devis.statut || ''}
+                      onChange={(e) => handleStatutChange(devis, e.target.value)}
+                      className={`status-select statut-${devis.statut.toLowerCase().replace(/\s/g, '')}`}
+                      style={{ padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}
                     >
-                      {devis.statut}
-                    </button>
+                      <option value="" disabled>Sélectionner un statut</option>
+                      {STATUTS.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        )}
+
+        {editingDevis && (
+          <div
+            className="modal-overlay"
+            style={{
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+              backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex',
+              justifyContent: 'center', alignItems: 'center', zIndex: 9999
+            }}
+          >
+            <div
+              className="modal-content"
+              style={{
+                backgroundColor: 'white', padding: '20px', borderRadius: '8px',
+                width: '400px', maxHeight: '90vh', overflowY: 'auto'
+              }}
+            >
+              <h2>Modifier le devis</h2>
+              <label>
+                Nom:
+                <input
+                  type="text"
+                  name="nom"
+                  value={formData.nom}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <label>
+                Lieu départ:
+                <input
+                  type="text"
+                  name="adresseDepart"
+                  value={formData.adresseDepart}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <label>
+                Lieu arrivée:
+                <input
+                  type="text"
+                  name="adresseArrivee"
+                  value={formData.adresseArrivee}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <label>
+                Date départ:
+                <input
+                  type="date"
+                  name="dateDepart"
+                  value={formData.dateDepart}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <label>
+                Date arrivée:
+                <input
+                  type="date"
+                  name="dateRetour"
+                  value={formData.dateRetour}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <label>
+                Tarif:
+                <input
+                  type="number"
+                  name="tarif"
+                  value={formData.tarif}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </label>
+              <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button onClick={cancelEdit}>Annuler</button>
+                <button onClick={saveChanges}>Enregistrer</button>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </div>

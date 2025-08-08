@@ -1,13 +1,11 @@
-/* Conteneur principal avec sidebar à gauche */
 .devis_container {
   display: flex;
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Sidebar prend une largeur fixe */
 .devis_container > aside {
-  width: 250px; /* ou ce que ton sidebar utilise */
+  width: 250px;
   background-color: #222831;
   color: #eeeeee;
   min-height: 100vh;
@@ -18,21 +16,18 @@
   padding: 20px;
 }
 
-/* Contenu principal à droite de la sidebar */
 .devis_main {
-  margin-left: 250px; /* même que sidebar width */
+  margin-left: 250px;
   padding: 20px;
   flex-grow: 1;
   background-color: #f5f5f5;
 }
 
-/* Titre */
 .devis_main h1 {
   margin-bottom: 20px;
   color: #393e46;
 }
 
-/* Tableau */
 .devis_table {
   width: 100%;
   border-collapse: collapse;
@@ -54,7 +49,6 @@
   font-size: 14px;
 }
 
-/* Boutons action */
 .btn-action {
   cursor: pointer;
   border: none;
@@ -82,7 +76,6 @@
   background-color: #da2f2f;
 }
 
-/* Bouton statut avec couleurs différentes */
 .btn-statut {
   cursor: pointer;
   padding: 6px 12px;
@@ -93,10 +86,11 @@
   min-width: 90px;
   text-align: center;
   transition: background-color 0.3s;
+  display: inline-block;
 }
 
 .statut-en\ attente {
-  background-color:rgb(236, 195, 134);
+  background-color: rgb(236, 195, 134);
 }
 
 .statut-accepté {
@@ -114,6 +108,7 @@
 .btn-statut:hover {
   filter: brightness(0.9);
 }
+
 .icon-btn {
   background: none;
   border: none;
@@ -126,4 +121,98 @@
 
 .icon-btn:hover {
   color: #007bff;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+.modal-buttons button:nth-child(1) {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-buttons button:nth-child(2) {
+  background-color: #4CAF50;
+  color: white;
+}
+.status-select {
+  background-color: white !important; /* Fond blanc */
+  color: black; /* Texte noir par défaut */
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Couleurs du texte selon le statut */
+.statut-enattente {
+  color: rgb(236, 195, 134);
+}
+
+.statut-accepté {
+  color: #4caf50;
+}
+
+.statut-refusé {
+  color: #f44336;
+}
+
+.statut-payé {
+  color: #3f51b5;
 }
