@@ -58,4 +58,13 @@
   .valider-btn:hover {
     background-color: #0056b3;
   }
-  
+  .orange-warning {
+  border: 2px solid orange;
+  background-color: #fff8e1;
+}
+
+.warning-text {
+  color: orange;
+  font-weight: bold;
+  margin-top: 5px;
+}

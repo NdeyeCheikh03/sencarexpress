@@ -1,0 +1,21 @@
+.chauffeur-layout {
+  display: flex;
+  min-height: 100vh; /* prend toute la hauteur de l'écran */
+}
+
+.sidebar {
+  width: 160px; /* largeur fixe pour la sidebar */
+  background-color: #43935e; /* couleur verte */
+  padding: 2rem 1rem;
+  color: white;
+}
+
+.chauffeur-content {
+  flex: 1; /* prend tout l'espace restant */
+  padding: 2rem;
+  max-width: 600px;
+  margin: 50px auto; /* centrer horizontalement */
+  background-color: rgb(187, 234, 205);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}

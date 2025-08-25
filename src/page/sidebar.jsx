@@ -15,12 +15,10 @@ const Sidebar = () => {
       <div className="sidebar-title">Panneau Admin</div>
       <ul>
         {/* Accueil */}
-        <li onClick={() => navigate('/admin')}> Accueil</li>
+        <li onClick={() => navigate('/admin')}>Accueil</li>
 
         {/* Gestion des devis */}
-        <li onClick={() => toggleMenu('gestionDevis')}>
-           Gestion des devis
-        </li>
+        <li onClick={() => toggleMenu('gestionDevis')}>Gestion des devis</li>
         {openMenu === 'gestionDevis' && (
           <div className="submenu">
             <ul>
@@ -31,22 +29,17 @@ const Sidebar = () => {
         )}
 
         {/* Gestion des utilisateurs */}
-        <li onClick={() => toggleMenu('gestionUtilisateurs')}>
-           Gestion des utilisateurs
-        </li>
+        <li onClick={() => toggleMenu('gestionUtilisateurs')}>Gestion des utilisateurs</li>
         {openMenu === 'gestionUtilisateurs' && (
           <div className="submenu">
             <ul>
               <li onClick={() => navigate('/utilisateurs')}>Liste des utilisateurs</li>
-              
             </ul>
           </div>
         )}
 
         {/* Gestion des véhicules */}
-        <li onClick={() => toggleMenu('gestionVehicules')}>
-           Gestion des véhicules
-        </li>
+        <li onClick={() => toggleMenu('gestionVehicules')}>Gestion des véhicules</li>
         {openMenu === 'gestionVehicules' && (
           <div className="submenu">
             <ul>
@@ -57,9 +50,7 @@ const Sidebar = () => {
         )}
 
         {/* Gestion des chauffeurs */}
-        <li onClick={() => toggleMenu('gestionChauffeurs')}>
-           Gestion des chauffeurs
-        </li>
+        <li onClick={() => toggleMenu('gestionChauffeurs')}>Gestion des chauffeurs</li>
         {openMenu === 'gestionChauffeurs' && (
           <div className="submenu">
             <ul>
@@ -68,7 +59,12 @@ const Sidebar = () => {
             </ul>
           </div>
         )}
-         <li onClick={() => navigate('/tarification')}>Tarification</li>
+
+        {/* Tarification */}
+        <li onClick={() => navigate('/tarification')}>Tarification</li>
+
+        {/* Facturation */}
+        <li onClick={() => navigate('/facturation')}>Facturation</li>
       </ul>
     </div>
   );

@@ -1,3 +1,4 @@
+/* Container principal */
 .admin-container {
   font-family: Arial, sans-serif;
   padding: 1rem;
@@ -50,58 +51,37 @@
   flex: 1 1 100%;
 }
 
-/* Calendar */
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.calendar-day {
-  padding: 0.5rem;
-  background-color: #e0e0e0;
-  text-align: center;
-  border-radius: 4px;
-}
-
-.calendar-day.disponible {
-  background-color: #b2ffb2;
-}
-
-.calendar-day.limite {
-  background-color: #fff3b2;
-}
-
-.calendar-day.complet {
-  background-color: #ffb2b2;
-}
-
+/* Calendar Legend */
 .calendar-legend {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
   align-items: center;
+  font-size: 12px;
 }
 
 .dot {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   margin-right: 0.3rem;
 }
 
+/* Harmonisation avec les couleurs du calendrier */
 .dot.disponible {
-  background-color: #4caf50;
+  background-color: #d4f8d4;
+  border: 1px solid #4caf50;
 }
 
 .dot.limite {
-  background-color: #ffc107;
+  background-color: #ffe9b3;
+  border: 1px solid #ffc107;
 }
 
 .dot.complet {
-  background-color: #f44336;
+  background-color: #ffcccc;
+  border: 1px solid #f44336;
 }
 
 /* Tables */
@@ -187,6 +167,8 @@ th, td {
     padding-left: 70px;
   }
 }
+
+/* Bouton "Voir plus" */
 .voir-plus-btn {
   padding: 6px 12px;
   background-color: #007bff;
@@ -199,4 +181,28 @@ th, td {
 
 .voir-plus-btn:hover {
   background-color: #0056b3;
+}
+
+/* === FullCalendar Compact & Ajustements === */
+.fc .fc-daygrid-day {
+  padding: 4px !important;
+  height: 50px !important;
+  font-size: 12px;
+}
+
+.fc .fc-col-header-cell-cushion {
+  font-size: 12px;
+  padding: 2px 0;
+}
+
+.fc .fc-daygrid-event {
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* Ajustement table compact */
+table th, table td {
+  font-size: 13px;
+  padding: 0.3rem 0.5rem;
 }

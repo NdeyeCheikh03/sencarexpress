@@ -13,8 +13,8 @@ import VehiculesPage from "./page/VehiculePage";
 import ListeChauffeurs from "./page/ListeChauffeur";
 import ListeDevis from "./page/DevisList.jsx";
 import TarificationPage from './page/TarificationPage';
-
-
+import Facturation from "./page/Facturation"; // <-- import de la page Facturation
+import AjouterDevis from "./page/AjouterDevis";
 
 
 function App() {
@@ -28,12 +28,13 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/vehicules/ajouter" element={<AjoutVehicule />} />
-<Route path="/chauffeurs/ajouter" element={<AjoutChauffeur />} />
-<Route path="/liste/vehicules" element={<VehiculesPage/>} />
-<Route path="/liste/chauffeurs" element={<ListeChauffeurs/>} />
-<Route path="/liste/devis" element={<ListeDevis/>} />
-<Route path="/tarification" element={<TarificationPage />} />
-
+          <Route path="/chauffeurs/ajouter" element={<AjoutChauffeur />} />
+          <Route path="/liste/vehicules" element={<VehiculesPage />} />
+          <Route path="/liste/chauffeurs" element={<ListeChauffeurs />} />
+          <Route path="/liste/devis" element={<ListeDevis />} />
+          <Route path="/tarification" element={<TarificationPage />} />
+          <Route path="/facturation" element={<Facturation />} /> {/* <-- ajout */}
+          <Route path="/devis/ajouter" element={<AjouterDevis />} />
 
         </Routes>
       </Router>

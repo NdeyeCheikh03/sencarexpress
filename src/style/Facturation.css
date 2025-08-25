@@ -1,0 +1,76 @@
+:root {
+  /* Ajuste cette valeur si ta sidebar a une autre largeur */
+  --sidebar-width: 240px;
+}
+
+.facturation-page {
+  /* nothing special */
+}
+
+/* Si la sidebar est en position:fixed, on décale le contenu principal */
+.facturation-main {
+  margin-left: var(--sidebar-width);
+  padding: 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* select */
+.facturation-select {
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #d7ead1;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* wrapper pour gérer overflow sur petits écrans */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 12px;
+}
+
+/* table */
+.facturation-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.facturation-table th,
+.facturation-table td {
+  border: 1px solid #bfbfbf;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.facturation-table thead th {
+  background-color: #d7ead1;
+  font-weight: 700;
+}
+
+.facturation-table tfoot td {
+  font-weight: 700;
+  background-color: #f0f0f0;
+}
+
+/* statut */
+.statut-paye {
+  color: green;
+  font-weight: bold;
+}
+
+.statut-nonpaye {
+  color: #555;
+  font-weight: 600;
+}
+
+/* responsive: réduire la taille du texte si écran étroit */
+@media (max-width: 700px) {
+  .facturation-main { padding: 12px; }
+  .facturation-table th, .facturation-table td { padding: 8px; font-size: 12px; }
+}
