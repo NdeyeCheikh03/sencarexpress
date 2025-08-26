@@ -39,3 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    
 });
+//Calendrier
+use App\Http\Controllers\DisponibiliteController;
+
+Route::get('/disponibilites', [DisponibiliteController::class, 'index']);
