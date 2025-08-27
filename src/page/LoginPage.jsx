@@ -7,30 +7,46 @@ import '../style/LoginPage.css';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMsg(''); // Reset des erreurs
 
     try {
-      // Étape 1 : Récupérer le cookie CSRF depuis Sanctum
-      await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
-        withCredentials: true,
-      });
-
-      // Étape 2 : Effectuer la connexion
       const res = await axios.post(
         'http://localhost:8000/api/login',
         { email, password },
-        { withCredentials: true }
+        { headers: { 'Accept': 'application/json' } }
       );
 
-      login(res.data.user); // Stocke le user dans le contexte
-      navigate('/admin'); // Redirige vers la page admin
+      // Stocker le token dans localStorage
+      localStorage.setItem('token', res.data.token);
+
+      // Stocker l'utilisateur dans le contexte
+      login(res.data.user);
+
+      // Redirection vers /admin
+      navigate('/admin');
     } catch (error) {
-      alert('Identifiants incorrects');
-      console.error(error);
+      if (error.response && error.response.data) {
+        const data = error.response.data;
+        if (data.errors) {
+          // Erreurs de validation
+          const messages = Object.values(data.errors).flat().join(' ');
+          setErrorMsg(messages);
+        } else if (data.error) {
+          setErrorMsg(data.error);
+        } else if (data.message) {
+          setErrorMsg(data.message);
+        } else {
+          setErrorMsg('Identifiants incorrects');
+        }
+      } else {
+        setErrorMsg('Erreur serveur');
+      }
     }
   };
 
@@ -38,6 +54,9 @@ const LoginPage = () => {
     <div className="login-page">
       <form className="login-form" onSubmit={handleLogin}>
         <h2>Connexion</h2>
+
+        {errorMsg && <div className="error-message">{errorMsg}</div>}
+
         <input
           type="email"
           value={email}
