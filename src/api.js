@@ -46,8 +46,5 @@ export const createTarif = (data) => api.post("/tarifs", data);
 export const getTarifById = (id) => api.get(`/tarifs/${id}`);
 export const updateTarif = (id, data) => api.put(`/tarifs/${id}`, data);
 export const deleteTarif = (id) => api.delete(`/tarifs/${id}`);
-/* ===================== DISPONIBILITES ===================== */
-export const getDisponibilites = () => api.get("/disponibilites");
-
 
 export default api;
