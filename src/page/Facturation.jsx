@@ -1,77 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../style/Facturation.css";
-import Sidebar from "./sidebar"; // <-- sidebar est dans src/page
+import Sidebar from "./sidebar";
 
 const moisList = [
   "Janvier","Février","Mars","Avril","Mai","Juin",
   "Juillet","Août","Septembre","Octobre","Novembre","Décembre"
 ];
 
+const STATUTS = ["Payé", "Non payé"];
+
 const Facturation = () => {
   const [devisList, setDevisList] = useState([]);
-  const [tarifs, setTarifs] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState("");
 
   useEffect(() => {
-    const fetchAll = async () => {
+    const fetchDevis = async () => {
       try {
-        const [devisRes, tarifsRes] = await Promise.all([
-          axios.get("http://localhost:8000/api/devis"),
-          axios.get("http://localhost:8000/api/tarifs"),
-        ]);
-        setDevisList(Array.isArray(devisRes.data) ? devisRes.data : []);
-        setTarifs(Array.isArray(tarifsRes.data) ? tarifsRes.data : []);
+        const res = await axios.get("http://localhost:8000/api/devis");
+        setDevisList(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
-        console.error("Erreur récupération données :", err);
+        console.error("Erreur récupération devis :", err);
       }
     };
-    fetchAll();
+    fetchDevis();
   }, []);
 
-  // Essaye de récupérer un montant (nombre) pour un devis :
-  const getMontantNumber = (devis) => {
-    // 1) si admin a déjà mis un tarif dans le devis -> on prend
-    if (devis.tarif !== undefined && devis.tarif !== null && devis.tarif !== "") {
-      const n = Number(devis.tarif);
-      return isNaN(n) ? null : n;
+  // mettre à jour montant ou statut directement
+  const handleChange = async (id, field, value) => {
+    try {
+      await axios.put(`http://localhost:8000/api/devis/${id}`, { [field]: value });
+      setDevisList((prev) =>
+        prev.map((d) => (d.id === id ? { ...d, [field]: value } : d))
+      );
+    } catch (error) {
+      console.error("Erreur mise à jour devis :", error);
     }
-    // 2) on cherche une entrée tarif correspondante (départ/arrivée exacts)
-    const match = tarifs.find(t =>
-      t.depart && t.arrivee &&
-      devis.adresseDepart && devis.adresseArrivee &&
-      t.depart.toString().trim().toLowerCase() === devis.adresseDepart.toString().trim().toLowerCase() &&
-      t.arrivee.toString().trim().toLowerCase() === devis.adresseArrivee.toString().trim().toLowerCase()
-    );
-    // si le tarif contient un champ 'prix' ou 'tarif' on le retourne
-    if (match) {
-      if (match.prix !== undefined) {
-        const n = Number(match.prix);
-        return isNaN(n) ? null : n;
-      }
-      if (match.tarif !== undefined) {
-        const n = Number(match.tarif);
-        return isNaN(n) ? null : n;
-      }
-      // sinon pas de champ prix défini -> on ne peut pas calculer automatiquement
-    }
-    return null;
   };
 
-  // Construire dataset affichable
-  const dataFusionnee = devisList.map(d => {
-    const montantNum = getMontantNumber(d);
-    return {
-      ...d,
-      vehiculeAffichage: d.typeBus || "—",
-      montantNum,
-      montantAffichage: montantNum !== null ? `${montantNum} €` : (d.tarif ? `${d.tarif} €` : "-"),
-      statutAffichage: d.statut && d.statut.toString().toLowerCase() === "payé" ? "Payé" : "Non payé",
-    };
-  });
-
-  // filtre par mois sélectionné
-  const filteredData = dataFusionnee.filter(d => {
+  // filtrer par mois
+  const filteredData = devisList.filter((d) => {
     if (!d.dateDepart) return false;
     const date = new Date(d.dateDepart);
     if (isNaN(date)) return false;
@@ -79,8 +47,8 @@ const Facturation = () => {
     return selectedMonth ? mois === selectedMonth : true;
   });
 
-  // total (somme uniquement des montants numériques trouvés)
-  const total = filteredData.reduce((sum, row) => sum + (Number(row.montantNum) || 0), 0);
+  // total des montants
+  const total = filteredData.reduce((sum, row) => sum + (Number(row.tarif) || 0), 0);
 
   return (
     <div className="facturation-page">
@@ -104,7 +72,7 @@ const Facturation = () => {
                 <th>Date de location</th>
                 <th>Client</th>
                 <th>Véhicule (type)</th>
-                <th>Montant</th>
+                <th>Montant (€)</th>
                 <th>Statut</th>
               </tr>
             </thead>
@@ -116,10 +84,25 @@ const Facturation = () => {
                   <tr key={i}>
                     <td>{d.dateDepart ? new Date(d.dateDepart).toLocaleDateString("fr-FR") : "-"}</td>
                     <td>{d.nom || d.organisme || "-"}</td>
-                    <td>{d.vehiculeAffichage}</td>
-                    <td>{d.montantAffichage}</td>
-                    <td className={d.statutAffichage === "Payé" ? "statut-paye" : "statut-nonpaye"}>
-                      {d.statutAffichage}
+                    <td>{d.typeBus || "—"}</td>
+                    <td>
+                      <input
+                        type="number"
+                        value={d.tarif || ""}
+                        onChange={(e) => handleChange(d.id, "tarif", e.target.value)}
+                        style={{ width: "100px" }}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={d.statut || "Non payé"}
+                        onChange={(e) => handleChange(d.id, "statut", e.target.value)}
+                        className={d.statut === "Payé" ? "statut-paye" : "statut-nonpaye"}
+                      >
+                        {STATUTS.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
                     </td>
                   </tr>
                 ))

@@ -38,16 +38,37 @@ export default function DemandeDevis() {
     }
     if (!form.adresseDepart.trim()) newErrors.adresseDepart = "Champ requis";
     if (!form.adresseArrivee.trim()) newErrors.adresseArrivee = "Champ requis";
-    if (!form.dateDepart || !form.heureDepart) newErrors.dateDepart = "Champ requis";
-    if (!form.dateRetour || !form.heureRetour) newErrors.dateRetour = "Champ requis";
+    if (!form.dateDepart || !form.heureDepart)
+      newErrors.dateDepart = "Champ requis";
+    if (!form.dateRetour || !form.heureRetour)
+      newErrors.dateRetour = "Champ requis";
     if (!form.telephone.trim().match(/^\+?[0-9\s.-]{7,15}$/)) {
       newErrors.telephone = "Numéro de téléphone invalide";
     }
 
-    const depart = new Date(`${form.dateDepart}T${form.heureDepart}`);
-    const retour = new Date(`${form.dateRetour}T${form.heureRetour}`);
-    if (depart && retour && retour < depart) {
-      newErrors.dateRetour = "La date de retour ne peut pas être antérieure à la date de départ";
+    // === Vérifications supplémentaires ===
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // on compare seulement les dates sans l'heure
+
+    if (form.dateDepart) {
+      const departDate = new Date(form.dateDepart);
+      if (departDate < today) {
+        newErrors.dateDepart =
+          "La date de départ ne peut pas être antérieure à aujourd'hui";
+      }
+    }
+
+    if (form.dateRetour && form.dateDepart) {
+      const depart = new Date(`${form.dateDepart}T${form.heureDepart}`);
+      const retour = new Date(`${form.dateRetour}T${form.heureRetour}`);
+
+      if (retour < today) {
+        newErrors.dateRetour =
+          "La date de retour ne peut pas être antérieure à aujourd'hui";
+      } else if (retour < depart) {
+        newErrors.dateRetour =
+          "La date de retour ne peut pas être antérieure à la date de départ";
+      }
     }
 
     setErrors(newErrors);
@@ -55,11 +76,15 @@ export default function DemandeDevis() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await axios.post("http://localhost:8000/api/devis", form, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.post(
+          "http://localhost:8000/api/devis",
+          form,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.status === 200 || response.status === 201) {
           setSuccess("Demande envoyée avec succès !");
@@ -84,6 +109,9 @@ export default function DemandeDevis() {
       }
     }
   };
+
+  // === Pour bloquer la sélection d'une date passée dans le calendrier ===
+  const todayStr = new Date().toISOString().split("T")[0];
 
   return (
     <>
@@ -135,7 +163,9 @@ export default function DemandeDevis() {
                 value={form.organisme}
                 onChange={handleChange}
               />
-              {errors.organisme && <p className="error-message">{errors.organisme}</p>}
+              {errors.organisme && (
+                <p className="error-message">{errors.organisme}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="nom">Votre nom complet</label>
@@ -157,7 +187,9 @@ export default function DemandeDevis() {
                 value={form.email}
                 onChange={handleChange}
               />
-              {errors.email && <p className="error-message">{errors.email}</p>}
+              {errors.email && (
+                <p className="error-message">{errors.email}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="adresseDepart">Adresse de départ</label>
@@ -168,7 +200,9 @@ export default function DemandeDevis() {
                 value={form.adresseDepart}
                 onChange={handleChange}
               />
-              {errors.adresseDepart && <p className="error-message">{errors.adresseDepart}</p>}
+              {errors.adresseDepart && (
+                <p className="error-message">{errors.adresseDepart}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="adresseArrivee">Adresse d'arrivée</label>
@@ -179,7 +213,9 @@ export default function DemandeDevis() {
                 value={form.adresseArrivee}
                 onChange={handleChange}
               />
-              {errors.adresseArrivee && <p className="error-message">{errors.adresseArrivee}</p>}
+              {errors.adresseArrivee && (
+                <p className="error-message">{errors.adresseArrivee}</p>
+              )}
             </div>
             <div className="field">
               <label>Date de départ</label>
@@ -188,6 +224,7 @@ export default function DemandeDevis() {
                 name="dateDepart"
                 value={form.dateDepart}
                 onChange={handleChange}
+                min={todayStr} // empêche de choisir une date passée
               />
             </div>
           </div>
@@ -202,7 +239,9 @@ export default function DemandeDevis() {
                 value={form.heureDepart}
                 onChange={handleChange}
               />
-              {errors.dateDepart && <p className="error-message">{errors.dateDepart}</p>}
+              {errors.dateDepart && (
+                <p className="error-message">{errors.dateDepart}</p>
+              )}
             </div>
             <div className="field">
               <label>Date de retour</label>
@@ -211,6 +250,7 @@ export default function DemandeDevis() {
                 name="dateRetour"
                 value={form.dateRetour}
                 onChange={handleChange}
+                min={todayStr} // empêche aussi de choisir une date passée
               />
               <label>Heure de retour</label>
               <input
@@ -219,7 +259,9 @@ export default function DemandeDevis() {
                 value={form.heureRetour}
                 onChange={handleChange}
               />
-              {errors.dateRetour && <p className="error-message">{errors.dateRetour}</p>}
+              {errors.dateRetour && (
+                <p className="error-message">{errors.dateRetour}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="telephone">Votre numéro de téléphone</label>
@@ -230,7 +272,9 @@ export default function DemandeDevis() {
                 value={form.telephone}
                 onChange={handleChange}
               />
-              {errors.telephone && <p className="error-message">{errors.telephone}</p>}
+              {errors.telephone && (
+                <p className="error-message">{errors.telephone}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="typeBus">Type de bus</label>
@@ -282,8 +326,9 @@ export default function DemandeDevis() {
           </div>
           <div className="footer-column footer-description">
             <p>
-              Sen Car Express propose la location de bus confortables (5 à 60 places) pour tous vos déplacements.
-              Tukkil ak Diam : voyager en toute tranquillité, avec confort et sécurité.
+              Sen Car Express propose la location de bus confortables (5 à 60
+              places) pour tous vos déplacements. Tukkil ak Diam : voyager en
+              toute tranquillité, avec confort et sécurité.
             </p>
             <div className="footer-socials">
               <i className="fab fa-facebook-f"></i>
@@ -294,9 +339,15 @@ export default function DemandeDevis() {
           <div className="footer-column">
             <h3>Contact</h3>
             <ul className="contact-list">
-              <li><i className="fas fa-phone-alt"></i> 456-575-4551</li>
-              <li><i className="fas fa-envelope"></i> example@gmail.com</li>
-              <li><i className="fas fa-map-marker-alt"></i> Lorem Ipsum, Dakar</li>
+              <li>
+                <i className="fas fa-phone-alt"></i> 456-575-4551
+              </li>
+              <li>
+                <i className="fas fa-envelope"></i> example@gmail.com
+              </li>
+              <li>
+                <i className="fas fa-map-marker-alt"></i> Lorem Ipsum, Dakar
+              </li>
             </ul>
           </div>
         </div>
